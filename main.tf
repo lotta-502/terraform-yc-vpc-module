@@ -17,7 +17,7 @@ resource "yandex_vpc_gateway" "egress_gateway" {
 resource "yandex_vpc_route_table" "public" {
   folder_id   = var.folder_id
   name        = "${var.network_name}-public"
-  description = "${var.network_name} routing table for public subnets"
+  description = "Routing table for ${var.network_name} public subnets"
   network_id  = yandex_vpc_network.this.id
 
   labels = var.labels
@@ -26,7 +26,7 @@ resource "yandex_vpc_route_table" "public" {
 resource "yandex_vpc_route_table" "private" {
   folder_id   = var.folder_id
   name        = "${var.network_name}-private"
-  description = "${var.network_name} routing table for private subnets"
+  description = "Routing table for ${var.network_name} private subnets"
   network_id  = yandex_vpc_network.this.id
 
   static_route {
@@ -41,8 +41,8 @@ resource "yandex_vpc_subnet" "public" {
   for_each = var.public_subnets
 
   folder_id      = var.folder_id
-  name           = "public-${var.network_name}-${each.key}"
-  description    = "${var.network_name} subnet for ${each.key}"
+  name           = "${var.network_name}-public-${each.key}"
+  description    = "${var.network_name} public subnet:${each.key}"
   network_id     = yandex_vpc_network.this.id
   v4_cidr_blocks = each.value.v4_cidr_blocks
   zone           = each.value.zone
@@ -55,8 +55,8 @@ resource "yandex_vpc_subnet" "private" {
   for_each = var.private_subnets
 
   folder_id      = var.folder_id
-  name           = "private-${var.network_name}-${each.key}"
-  description    = "${var.network_name} subnet for ${each.key}"
+  name           = "${var.network_name}-private-${each.key}"
+  description    = "${var.network_name} private subnet:${each.key}"
   network_id     = yandex_vpc_network.this.id
   v4_cidr_blocks = each.value.v4_cidr_blocks
   zone           = each.value.zone
@@ -67,8 +67,8 @@ resource "yandex_vpc_subnet" "private" {
 
 resource "yandex_vpc_security_group" "default" {
   folder_id   = var.folder_id
-  name        = "${var.network_name}-vpc-default-sg"
-  description = "Default VPC security group"
+  name        = "${var.network_name}-default-sg"
+  description = "${var.network_name} default security group"
   network_id  = yandex_vpc_network.this.id
 
   ingress {
