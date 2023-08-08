@@ -7,7 +7,7 @@ variable "network_name" {
 }
 
 variable "network_description" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -20,6 +20,6 @@ variable "private_subnets" {
 }
 
 variable "labels" {
-  type = map(string)
+  type    = map(string)
   default = {}
 }
