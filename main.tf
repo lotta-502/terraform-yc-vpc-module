@@ -24,6 +24,9 @@ resource "yandex_vpc_route_table" "public" {
 }
 
 resource "yandex_vpc_route_table" "private" {
+  depends_on = [
+    yandex_vpc_gateway.egress_gateway.id
+  ]
   folder_id   = var.folder_id
   name        = "${var.network_name}-private"
   description = "Routing table for ${var.network_name} private subnets"
