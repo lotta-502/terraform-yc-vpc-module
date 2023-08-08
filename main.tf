@@ -7,8 +7,8 @@ resource "yandex_vpc_network" "this" {
 }
 
 resource "yandex_vpc_gateway" "egress_gateway" {
-  folder_id   = var.folder_id
-  name = "${var.network_name}-egress-gateway"
+  folder_id = var.folder_id
+  name      = "${var.network_name}-egress-gateway"
   shared_egress_gateway {}
 
   labels = var.labels
@@ -67,6 +67,7 @@ resource "yandex_vpc_subnet" "private" {
 
 resource "yandex_vpc_security_group" "default" {
   folder_id   = var.folder_id
+  name        = "${var.network_name}-vpc-default-sg"
   description = "Default VPC security group"
   network_id  = yandex_vpc_network.this.id
 
