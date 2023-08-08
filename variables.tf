@@ -20,6 +20,6 @@ variable "private_subnets" {
 }
 
 variable "labels" {
-  type = string
+  type = map(string)
   default = {}
 }
