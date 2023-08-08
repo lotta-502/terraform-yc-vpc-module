@@ -30,7 +30,7 @@ resource "yandex_vpc_route_table" "private" {
 
   static_route {
     destination_prefix = "0.0.0.0/0"
-    gateway_id         = yandex_vpc_gateway.default.id
+    gateway_id         = yandex_vpc_gateway.egress_gateway.id
   }
 
   labels = var.labels
