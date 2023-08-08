@@ -7,6 +7,7 @@ resource "yandex_vpc_network" "this" {
 }
 
 resource "yandex_vpc_gateway" "egress_gateway" {
+  folder_id   = var.folder_id
   name = "${var.network_name}-egress-gateway"
   shared_egress_gateway {}
 
@@ -64,17 +65,11 @@ resource "yandex_vpc_subnet" "private" {
   labels = var.labels
 }
 
-resource "yandex_vpc_default_security_group" "this" {
+resource "yandex_vpc_security_group" "default" {
   folder_id   = var.folder_id
   description = "Default VPC security group"
   network_id  = yandex_vpc_network.this.id
 
-  ingress {
-    protocol          = "ANY"
-    description       = "Communication inside this SG"
-    predefined_target = "self_security_group"
-
-  }
   ingress {
     protocol       = "ICMP"
     description    = "ICMP"
@@ -82,11 +77,7 @@ resource "yandex_vpc_default_security_group" "this" {
     from_port      = 0
     to_port        = 65535
   }
-  ingress {
-    protocol          = "TCP"
-    description       = "NLB health check"
-    predefined_target = "loadbalancer_healthchecks"
-  }
+
   egress {
     protocol       = "ANY"
     description    = "To internet"
