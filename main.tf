@@ -64,26 +64,3 @@ resource "yandex_vpc_subnet" "private" {
 
   labels = var.labels
 }
-
-resource "yandex_vpc_security_group" "default" {
-  folder_id   = var.folder_id
-  name        = "${var.network_name}-default-sg"
-  description = "${var.network_name} default security group"
-  network_id  = yandex_vpc_network.this.id
-
-  ingress {
-    protocol       = "ICMP"
-    description    = "ICMP"
-    v4_cidr_blocks = ["0.0.0.0/0"]
-    from_port      = 0
-    to_port        = 65535
-  }
-
-  egress {
-    protocol       = "ANY"
-    description    = "To internet"
-    v4_cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  labels = var.labels
-}
