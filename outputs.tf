@@ -7,5 +7,5 @@ output "vpc_public_subnets" {
 }
 
 output "vpc_private_subnets" {
-  value = yandex_vpc_subnet.public
+  value = yandex_vpc_subnet.private
 }
